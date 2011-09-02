@@ -5,7 +5,7 @@
 #include "matrix.h"
 
 
-
+/*
 int main() 
 {
 
@@ -22,7 +22,7 @@ int main()
 
 	return 0;
 }
-
+*/
 
 matrix *create_zero_matrix(int dim_x, int dim_y) 
 {
