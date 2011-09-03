@@ -1,4 +1,5 @@
-
+#ifndef __MATRIX__H__
+#define __MATRIX__H__
 typedef struct matrix
 {
 	double *M;
@@ -14,3 +15,5 @@ int get_x_dimension(matrix *mat);
 int get_y_dimension(matrix *mat);
 void display_matrix(matrix *mat);
 matrix *gen_rand_matrix(int dim_x, int dim_y);
+
+#endif
