@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "matrix.h"
 
 
@@ -95,5 +96,24 @@ void display_matrix(matrix *mat)
 	}
 
 }
+
+matrix *gen_rand_matrix(int dim_x, int dim_y) 
+{
+	
+	matrix *mat;
+	int i,len;
+
+	len = dim_x*dim_y;
+	mat = create_zero_matrix(dim_x, dim_y);
+	srand(time(NULL));
+	
+	for(i = 0; i<len; i++) {
+		(mat->M)[i] = (((double)rand()*2)/RAND_MAX) - 1;
+	}
+	
+	return mat;
+}
+
+
 
 
