@@ -54,17 +54,28 @@ void destroy_matrix(matrix *mat)
 
 }
 
-double get_element(int pos_x, int pos_y, matrix *mat)
+double *get_element(int pos_x, int pos_y, matrix *mat)
 {
-	return ((mat->M)[(mat->row_dim*pos_y) + pos_x]);
+	
+	if(pos_x < mat->row_dim && pos_x >= 0 && pos_y < mat->col_dim && pos_y >= 0) {
+	
+		return &((mat->M)[(mat->row_dim*pos_y) + pos_x]);
+	} else {
+		return NULL;
+	}
 
 }
 
 int set_element(int pos_x, int pos_y, double value, matrix *mat)
 {
 
-	(mat->M)[(mat->row_dim*pos_y) + pos_x] = value;
-	return 0;
+	
+	if(pos_x < mat->row_dim && pos_x >= 0 && pos_y < mat->col_dim && pos_y >= 0) {
+		(mat->M)[(mat->row_dim*pos_y) + pos_x] = value;
+		return 0;
+	} else {
+		return -1;
+	}
 }
 
 int get_x_dimension(matrix *mat) 
@@ -80,20 +91,25 @@ int get_y_dimension(matrix *mat)
 }
 
 
-void display_matrix(matrix *mat)
+int display_matrix(matrix *mat)
 {
 
 	int i,j;
 
+	if(mat == NULL) {
+		fprintf(stderr, "Error: NULL matrix pointer encountered in function display_matrix. \n");
+		return -1;
+	}
 	for(i = 0; i<mat->row_dim; i++) {
 	
 		//printf("%d |",i);
 		for(j = 0; j<mat->col_dim; j++) {
 		
-			printf(" %10.7lf ", get_element(i,j,mat));
+			printf(" %10.7lf ", *get_element(i,j,mat));
 		}
 		printf(";\n");
 	}
+	return 0;
 
 }
 
@@ -134,11 +150,8 @@ matrix *extract_row(matrix *mat, int index)
 	
 	row = create_zero_matrix(1,cols);
 
-	printf("%d  %d \n",rows, cols);
 
 	for(i = 0; i<cols; i++) {
-		printf("%d \n", i);
-		printf("%lf \n", (mat->M)[index + (rows*i)]);
 		(row->M)[i] = (mat->M)[index + (rows*i)];
 	}
 
