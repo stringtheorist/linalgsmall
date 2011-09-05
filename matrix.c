@@ -11,13 +11,13 @@ int main()
 {
 
 	matrix *test_mat1;
-	int dim_x, dim_y;
+	int rows, cols;
 
 
 
 	printf("Testing \n");
-	dim_x = dim_y = 4;
-	test_mat1 = create_zero_matrix(dim_x, dim_y);
+	rows = cols = 4;
+	test_mat1 = create_zero_matrix(rows, cols);
 	display_matrix(test_mat1);
 	destroy_matrix(test_mat1);
 
@@ -25,17 +25,17 @@ int main()
 }
 */
 
-matrix *create_zero_matrix(int dim_x, int dim_y) 
+matrix *create_zero_matrix(int rows, int cols) 
 {
 
 	matrix *mat;
 	int i,len;
 
-	len = dim_x*dim_y;
+	len = rows*cols;
 	mat = (matrix *)malloc(sizeof(matrix));
 	mat->M = (double *)malloc((len)*sizeof(double));
-	mat->dimension_x = dim_x;
-	mat->dimension_y = dim_y;
+	mat->row_dim = rows;
+	mat->col_dim = cols;
 
 	
 	for(i = 0; i<len ; i++){ 
@@ -56,27 +56,27 @@ void destroy_matrix(matrix *mat)
 
 double get_element(int pos_x, int pos_y, matrix *mat)
 {
-	return ((mat->M)[(mat->dimension_x*pos_y) + pos_x]);
+	return ((mat->M)[(mat->row_dim*pos_y) + pos_x]);
 
 }
 
 int set_element(int pos_x, int pos_y, double value, matrix *mat)
 {
 
-	(mat->M)[(mat->dimension_x*pos_y) + pos_x] = value;
+	(mat->M)[(mat->row_dim*pos_y) + pos_x] = value;
 	return 0;
 }
 
 int get_x_dimension(matrix *mat) 
 {
 
-	return mat->dimension_x;
+	return mat->row_dim;
 }
 
 int get_y_dimension(matrix *mat)
 {
 	
-	return mat->dimension_y;
+	return mat->col_dim;
 }
 
 
@@ -85,10 +85,10 @@ void display_matrix(matrix *mat)
 
 	int i,j;
 
-	for(i = 0; i<mat->dimension_x; i++) {
+	for(i = 0; i<mat->row_dim; i++) {
 	
 		//printf("%d |",i);
-		for(j = 0; j<mat->dimension_y; j++) {
+		for(j = 0; j<mat->col_dim; j++) {
 		
 			printf(" %10.7lf ", get_element(i,j,mat));
 		}
@@ -97,14 +97,14 @@ void display_matrix(matrix *mat)
 
 }
 
-matrix *gen_rand_matrix(int dim_x, int dim_y) 
+matrix *gen_rand_matrix(int rows, int cols) 
 {
 	
 	matrix *mat;
 	int i,len;
 
-	len = dim_x*dim_y;
-	mat = create_zero_matrix(dim_x, dim_y);
+	len = rows*cols;
+	mat = create_zero_matrix(rows, cols);
 	
 	for(i = 0; i<len; i++) {
 		(mat->M)[i] = (((double)rand()*2)/RAND_MAX) - 1;
@@ -120,26 +120,26 @@ matrix *extract_row(matrix *mat, int index)
 	
 	matrix *row;
 	int i;
-	int dim_x, dim_y;
+	int rows, cols;
 
 	
 
-	dim_y = mat->dimension_y;
-	dim_x = mat->dimension_x;
+	cols = mat->col_dim;
+	rows = mat->row_dim;
 
-	if(index >=dim_x) {
+	if(index >=rows) {
 	 	return NULL;
 	}
 
 	
-	row = create_zero_matrix(1,dim_y);
+	row = create_zero_matrix(1,cols);
 
-	printf("%d  %d \n",dim_x, dim_y);
+	printf("%d  %d \n",rows, cols);
 
-	for(i = 0; i<dim_y; i++) {
+	for(i = 0; i<cols; i++) {
 		printf("%d \n", i);
-		printf("%lf \n", (mat->M)[index + (dim_x*i)]);
-		(row->M)[i] = (mat->M)[index + (dim_x*i)];
+		printf("%lf \n", (mat->M)[index + (rows*i)]);
+		(row->M)[i] = (mat->M)[index + (rows*i)];
 	}
 
 	return row;

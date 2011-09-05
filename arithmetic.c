@@ -9,22 +9,22 @@
 matrix *add_matrices(matrix *mat1, matrix *mat2)
 {
 	matrix *mat3;
-	int dim_x,dim_y;
+	int rows,cols;
 	int i,j;
 
 
-	if ((mat1->dimension_x != mat2->dimension_x) || (mat1->dimension_y!=mat2->dimension_y ) ) {
+	if ((mat1->row_dim != mat2->row_dim) || (mat1->col_dim!=mat2->col_dim ) ) {
 		return NULL;
 	}
 
-	dim_x = mat1->dimension_x;
-	dim_y = mat2->dimension_y;
+	rows = mat1->row_dim;
+	cols = mat2->col_dim;
 
-	mat3 = create_zero_matrix(dim_x,dim_y);
+	mat3 = create_zero_matrix(rows,cols);
 
-	for(j = 0;j<dim_y;j++) {
-		for(i = 0; i<dim_x; i++) {
-			(mat3->M)[i+(dim_x*j)] = (mat2->M)[i+(dim_x*j)] + (mat1->M)[i+(dim_x*j)];
+	for(j = 0;j<cols;j++) {
+		for(i = 0; i<rows; i++) {
+			(mat3->M)[i+(rows*j)] = (mat2->M)[i+(rows*j)] + (mat1->M)[i+(rows*j)];
 		}
 	}
 
@@ -34,11 +34,11 @@ matrix *add_matrices(matrix *mat1, matrix *mat2)
 matrix *negate_matrix(matrix *mat)
 {
 	int i;
-	int dim_x, dim_y;
-	dim_x = mat->dimension_x;
-	dim_y = mat->dimension_y;
+	int rows, cols;
+	rows = mat->row_dim;
+	cols = mat->col_dim;
 
-	for(i = 0; i < (dim_x*dim_y); i++) {
+	for(i = 0; i < (rows*cols); i++) {
 		(mat->M)[i] = -(mat->M)[i];
 	}
 	
@@ -48,28 +48,28 @@ matrix *negate_matrix(matrix *mat)
 matrix *multiply_matrices(matrix *mat1, matrix *mat2)
 {
  	matrix *mat3;
-	int dim_x1, dim_y1, dim_x2, dim_y2;
+	int rows1, cols1, rows2, cols2;
 	int i, j, k;
 	double dot_i_j;
 	
-	dim_x1 = mat1->dimension_x;
-	dim_y1 = mat1->dimension_y;
-	dim_x2 = mat2->dimension_x;
-	dim_y2 = mat2->dimension_y;
+	rows1 = mat1->row_dim;
+	cols1 = mat1->col_dim;
+	rows2 = mat2->row_dim;
+	cols2 = mat2->col_dim;
 	
-	if(dim_y1 != dim_x2) {
+	if(cols1 != rows2) {
 		return NULL;
 	}
 
-	mat3 = create_zero_matrix(dim_x1, dim_y2);
+	mat3 = create_zero_matrix(rows1, cols2);
 
-	for(j = 0; j<dim_y2; j++) {
-		for(i = 0; i<dim_x1; i++) {
+	for(j = 0; j<cols2; j++) {
+		for(i = 0; i<rows1; i++) {
 			dot_i_j = 0;
-			for(k = 0; k<dim_x2; k++) {
-				dot_i_j += ((mat1->M)[i+(dim_x1*k)])*((mat2->M)[k+(dim_x2*j)]);
+			for(k = 0; k<rows2; k++) {
+				dot_i_j += ((mat1->M)[i+(rows1*k)])*((mat2->M)[k+(rows2*j)]);
 			}
-			(mat3->M)[i+(dim_x1*j)] = dot_i_j;
+			(mat3->M)[i+(rows1*j)] = dot_i_j;
 		}
 	}
 
