@@ -15,5 +15,5 @@ int get_x_dimension(matrix *mat);
 int get_y_dimension(matrix *mat);
 void display_matrix(matrix *mat);
 matrix *gen_rand_matrix(int dim_x, int dim_y);
-
+matrix *extract_row(matrix *mat, int index);
 #endif

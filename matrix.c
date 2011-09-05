@@ -56,14 +56,14 @@ void destroy_matrix(matrix *mat)
 
 double get_element(int pos_x, int pos_y, matrix *mat)
 {
-	return ((mat->M)[(mat->dimension_y*pos_y) + pos_x]);
+	return ((mat->M)[(mat->dimension_x*pos_y) + pos_x]);
 
 }
 
 int set_element(int pos_x, int pos_y, double value, matrix *mat)
 {
 
-	(mat->M)[(mat->dimension_y*pos_y) + pos_x] = value;
+	(mat->M)[(mat->dimension_x*pos_y) + pos_x] = value;
 	return 0;
 }
 
@@ -87,12 +87,12 @@ void display_matrix(matrix *mat)
 
 	for(i = 0; i<mat->dimension_x; i++) {
 	
-		printf("%d |",i);
+		//printf("%d |",i);
 		for(j = 0; j<mat->dimension_y; j++) {
 		
-			printf(" %f ", get_element(i,j,mat));
+			printf(" %10.7lf ", get_element(i,j,mat));
 		}
-		printf("|\n");
+		printf(";\n");
 	}
 
 }
@@ -105,7 +105,6 @@ matrix *gen_rand_matrix(int dim_x, int dim_y)
 
 	len = dim_x*dim_y;
 	mat = create_zero_matrix(dim_x, dim_y);
-	srand(time(NULL));
 	
 	for(i = 0; i<len; i++) {
 		(mat->M)[i] = (((double)rand()*2)/RAND_MAX) - 1;
@@ -116,4 +115,33 @@ matrix *gen_rand_matrix(int dim_x, int dim_y)
 
 
 
+matrix *extract_row(matrix *mat, int index)
+{
+	
+	matrix *row;
+	int i;
+	int dim_x, dim_y;
+
+	
+
+	dim_y = mat->dimension_y;
+	dim_x = mat->dimension_x;
+
+	if(index >=dim_x) {
+	 	return NULL;
+	}
+
+	
+	row = create_zero_matrix(1,dim_y);
+
+	printf("%d  %d \n",dim_x, dim_y);
+
+	for(i = 0; i<dim_y; i++) {
+		printf("%d \n", i);
+		printf("%lf \n", (mat->M)[index + (dim_x*i)]);
+		(row->M)[i] = (mat->M)[index + (dim_x*i)];
+	}
+
+	return row;
+}
 
