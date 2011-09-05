@@ -1,3 +1,5 @@
+all: row_test matrix_test
+
 row_test: row_test.o
 	gcc row_test.o matrix.o arithmetic.o -orow_test
 
