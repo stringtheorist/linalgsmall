@@ -6,35 +6,39 @@
 
 
 
-matrix *add_matrices(matrix *mat1, matrix *mat2)
+int add_matrices(matrix *mat1, matrix *mat2, matrix *result)
 {
-	matrix *mat3;
 	int rows,cols;
 	int i,j;
 
 
 	if ((mat1->row_dim != mat2->row_dim) || (mat1->col_dim!=mat2->col_dim ) ) {
-		return NULL;
+		return -1;
+	} else if((mat1->row_dim != result->row_dim) || (mat1->col_dim != result->col_dim)) {
+		return -2;
 	}
 
 	rows = mat1->row_dim;
 	cols = mat2->col_dim;
 
-	mat3 = create_zero_matrix(rows,cols);
-
 	for(j = 0;j<cols;j++) {
 		for(i = 0; i<rows; i++) {
-			(mat3->M)[i+(rows*j)] = (mat2->M)[i+(rows*j)] + (mat1->M)[i+(rows*j)];
+			(result->M)[i+(rows*j)] = (mat2->M)[i+(rows*j)] + (mat1->M)[i+(rows*j)];
 		}
 	}
 
-	return mat3;
+	return 0;
 }
 
-matrix *negate_matrix(matrix *mat)
+int negate_matrix(matrix *mat)
 {
 	int i;
 	int rows, cols;
+
+	if (mat == NULL) {
+		return -1;
+	}
+
 	rows = mat->row_dim;
 	cols = mat->col_dim;
 
@@ -42,13 +46,12 @@ matrix *negate_matrix(matrix *mat)
 		(mat->M)[i] = -(mat->M)[i];
 	}
 	
-	return mat;
+	return 0;
 }
 
-matrix *multiply_matrices(matrix *mat1, matrix *mat2)
+int multiply_matrices(matrix *mat1, matrix *mat2, matrix *result)
 {
- 	matrix *mat3;
-	int rows1, cols1, rows2, cols2;
+	int rows1, cols1, rows2, cols2, rows_result, cols_result;
 	int i, j, k;
 	double dot_i_j;
 	
@@ -56,12 +59,15 @@ matrix *multiply_matrices(matrix *mat1, matrix *mat2)
 	cols1 = mat1->col_dim;
 	rows2 = mat2->row_dim;
 	cols2 = mat2->col_dim;
+	rows_result = result->row_dim;
+	cols_result = result->col_dim;
 	
 	if(cols1 != rows2) {
-		return NULL;
+		return -1;
+	} else if((rows1 != rows_result)||(cols2 != cols_result)) {
+		return -2;
 	}
 
-	mat3 = create_zero_matrix(rows1, cols2);
 
 	for(j = 0; j<cols2; j++) {
 		for(i = 0; i<rows1; i++) {
@@ -69,10 +75,40 @@ matrix *multiply_matrices(matrix *mat1, matrix *mat2)
 			for(k = 0; k<rows2; k++) {
 				dot_i_j += ((mat1->M)[i+(rows1*k)])*((mat2->M)[k+(rows2*j)]);
 			}
-			(mat3->M)[i+(rows1*j)] = dot_i_j;
+			(result->M)[i+(rows1*j)] = dot_i_j;
 		}
 	}
 
 
-	return mat3;
+	return 0;
+}
+
+int matrix_equals(matrix *mat1, matrix *mat2) {
+	
+	int flag;
+	int i, j;
+	int rows, cols;
+	
+	if ((mat1->row_dim != mat2->row_dim) || (mat1->col_dim!=mat2->col_dim ) ) {
+		return 2;
+	}
+	
+	rows = mat1->row_dim;
+	cols = mat2->col_dim;
+
+	flag = 0;
+	for(j = 0; j < cols; j++) {
+		for(i = 0; i < rows; i++) {
+			if((*get_element(i,j,mat1)) != (*get_element(i,j,mat2))) {
+				flag = 1;
+			} else {
+				if(flag != 1) {
+					flag = 0;
+				}
+			}
+
+		}
+	}
+
+	return flag;
 }

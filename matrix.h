@@ -16,4 +16,6 @@ int get_y_dimension(matrix *mat);
 int display_matrix(matrix *mat);
 matrix *gen_rand_matrix(int rows, int cols);
 matrix *extract_row(matrix *mat, int index);
+matrix *load_matrix(char *filename);
+int save_matrix(matrix* mat, char *filename);
 #endif

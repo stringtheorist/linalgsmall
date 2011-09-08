@@ -158,3 +158,70 @@ matrix *extract_row(matrix *mat, int index)
 	return row;
 }
 
+int save_matrix(matrix *mat, char *filename) 
+{
+ 	int rows, cols;
+	int i, j;
+	FILE *output_file;
+
+	rows = mat->row_dim;
+	cols = mat->col_dim;
+
+
+		
+
+	if(mat == NULL) {
+		fprintf(stderr, "Error: NULL matrix pointer encountered in function save_matrix. \n");
+		return -1;
+	}
+	
+	
+	output_file = fopen(filename, "w");
+	fprintf(output_file, "%d : %d::",rows, cols);
+
+	for(i = 0; i<rows; i++) {
+	
+		for(j = 0; j<cols; j++) {
+		
+			fprintf(output_file, "%lf,", *get_element(i,j,mat));
+		}
+		fprintf(output_file, ";\n");
+	}
+
+	fclose(output_file);
+	return 0;
+
+}	
+
+matrix *load_matrix(char *filename) {
+	
+	FILE *input_file;
+	int i, j;
+	int rows, cols;
+	matrix *mat;
+
+	input_file = fopen(filename, "r");
+	if(input_file == NULL) {
+		fprintf(stderr, "ERROR: file %s does not exist! \n", filename);
+		return NULL;
+	}
+
+	fscanf(input_file, "%d : %d ::", &rows, &cols); 
+
+	mat = create_zero_matrix(rows, cols);
+
+	for (i = 0; i < rows; i++) {
+		for(j = 0; j< cols; j++) {
+		fscanf(input_file, "%lf,", get_element(i, j, mat));
+		}
+		fscanf(input_file, ";\n");
+	}
+
+	fclose(input_file);
+	return mat;
+}
+
+
+
+	
+	

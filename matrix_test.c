@@ -15,8 +15,9 @@ int main()
 	mat1 = gen_rand_matrix(4,3);
 	mat2 = gen_rand_matrix(3,5);
 
-	mat3 = multiply_matrices(mat1, mat2);
+	mat3 = create_zero_matrix(4,5);
 	
+	multiply_matrices(mat1, mat2, mat3);
 
 	printf("mat1:\n");
 	display_matrix(mat1);
