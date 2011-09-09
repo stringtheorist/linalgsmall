@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 	
 	for( dim = dim_lower; dim<dim_upper; dim++) {
 
-		time_elapsed = avg_time(dim,iterations);
+		time_elapsed = matrix_benchmark(dim,iterations);
 
 		printf("dimension = %d, time = %lfms \n", dim, time_elapsed);
 
