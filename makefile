@@ -1,7 +1,7 @@
 all: row_test matrix_test file_io_test matrix_benchmark_test
 
 matrix_benchmark_test: matrix_benchmark_test.o
-	gcc avg_time_test.o matrix.o arithmetic.o -oavg_time_test
+	gcc matrix_benchmark_test.o matrix.o arithmetic.o -oavg_time_test
 
 file_io_test: file_io_test.o
 	gcc file_io_test.o matrix.o arithmetic.o -ofile_io_test
