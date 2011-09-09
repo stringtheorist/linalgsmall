@@ -5,25 +5,27 @@
 #include "arithmetic.h"
 
 
-double avg_time(int dim, int iterations);
+double matrix_benchmark(int dim, int iterations);
 
 
 
 int main(int argc, char *argv[]) 
 {
-	int dim, dim_upper, dim_lower;
+	int dim, dim_upper, dim_lower, iterations;
 	double time_elapsed;
 	FILE *ofp;
 
 	dim_lower = atoi(argv[1]);
 	dim_upper = atoi(argv[2]);
-
+	iterations = atoi(argv[3]);
 
 	ofp = fopen("times", "w");
+
+	srand(time(NULL));
 	
 	for( dim = dim_lower; dim<dim_upper; dim++) {
 
-		time_elapsed = avg_time(dim,25);
+		time_elapsed = avg_time(dim,iterations);
 
 		printf("dimension = %d, time = %lfms \n", dim, time_elapsed);
 
@@ -36,7 +38,7 @@ int main(int argc, char *argv[])
 }
 
 
-double avg_time(int dim, int iterations)
+double matrix_benchmark(int dim, int iterations)
 {
 	double t1;
 	double t2;
@@ -44,13 +46,14 @@ double avg_time(int dim, int iterations)
 	double time_elapsed, avg_time;
 	matrix *mat1, *mat2, *mat3;
 
-	t1 = (double)clock()/CLOCKS_PER_SEC;
 
 	mat3 = create_zero_matrix(dim,dim);
 	
 	mat1 = gen_rand_matrix(dim, dim);
 	mat2 = gen_rand_matrix(dim, dim);
 	
+	
+	t1 = (double)clock()/CLOCKS_PER_SEC;
 	for(i = 0; i< iterations; i++) {
 
 		multiply_matrices(mat1, mat2, mat3);
