@@ -19,7 +19,11 @@ int main(int argc, char *argv[])
 	dim_upper = atoi(argv[2]);
 	iterations = atoi(argv[3]);
 
-	ofp = fopen("times", "w");
+	ofp = fopen("times", "a");
+	if (ofp == NULL) {
+		fprintf(stderr, "ERROR: could not open file\n");
+		exit(0);
+	}
 
 	srand(time(NULL));
 	

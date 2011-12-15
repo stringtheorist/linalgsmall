@@ -25,6 +25,23 @@ int main()
 }
 */
 
+sparse_matrix_csc *create_uninitialized_sparse_csc(int rows, int cols, int non_zeros) 
+{
+	
+	sparse_matrix_csc *mat;
+	mat = (sparse_matrix_csc *)calloc(sizeof(sparse_matrix_csc));
+	mat->M = (double *)calloc(non_zeros*sizeof(double));
+	mat->col_dim = cols;
+	mat->row_dim = rows;
+	mat->row_ptr = (int *)calloc(rows*sizeof(int));
+	mat->col_ind = (int *)calloc(non_zeros*sizeof(int));
+	mat->non_zeros = non_zeros;
+	mat->uninit = non_zeros;
+	return mat;
+}
+
+
+	
 matrix *create_zero_matrix(int rows, int cols) 
 {
 

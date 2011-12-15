@@ -7,6 +7,19 @@ typedef struct matrix
 	int col_dim;
 }matrix;
 
+typedef struct sparse_matrix_csc
+{
+	double *M;
+	int row_dim;
+	int col_dim;
+	int *col_ind;
+	int *row_ptr;
+	int non_zeros;
+	int uninit;
+}sparse_matrix_csc;
+
+int set_row_sparse(int row_index, int *col_inds, int non_zeros, double *row);
+sparse_matrix_csc *create_uninitialized_sparse_csc(int rows, int cols, int non_zeros);
 matrix *create_zero_matrix(int rows, int cols);
 void destroy_matrix(matrix *mat);
 double *get_element(int pos_x, int pos_y,matrix *mat);
